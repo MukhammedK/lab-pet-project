@@ -1,6 +1,7 @@
 package kz.lab.petproject.controller;
 
 import kz.lab.petproject.entity.Product;
+import kz.lab.petproject.mapper.ProductMapper;
 import kz.lab.petproject.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +10,7 @@ import kz.lab.petproject.dto.ProductResponse;
 
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/products")
@@ -26,7 +28,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<ProductResponse> findAll() {
+    public CompletableFuture<List<ProductResponse>> findAll() {
         return productService.findAll();
     }
 

@@ -2,6 +2,7 @@ package kz.lab.petproject.service;
 
 import kz.lab.petproject.entity.Product;
 import kz.lab.petproject.repository.ProductRepository;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import kz.lab.petproject.dto.ProductRequest;
@@ -9,6 +10,7 @@ import kz.lab.petproject.dto.ProductResponse;
 import kz.lab.petproject.mapper.ProductMapper;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class ProductService {
@@ -26,11 +28,14 @@ public class ProductService {
     }
 
 
-    public List<ProductResponse> findAll() {
-        return productRepository.findAll()
+    @Async
+    public CompletableFuture<List<ProductResponse>> findAll() {
+        List<ProductResponse> result = productRepository.findAll()
                 .stream()
                 .map(ProductMapper::toResponse)
                 .toList();
+
+        return CompletableFuture.completedFuture(result);
     }
 
 
